@@ -44,17 +44,16 @@ def main():
         version=None
     )
 
-    # bottle.debug(args.debug)
+    bottle.debug(args.debug)
 
     run_config = {
         'host': '0.0.0.0',
         'port': args.port,
         'debug': args.debug,
-        'reloader': args.reloader
-        #'server': 'gunicorn'
+        'reloader': args.reloader,
+        'server': 'gunicorn'
     }
 
-    print('here')
     bottle.run(
         **run_config
     )
