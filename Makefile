@@ -34,5 +34,8 @@ quick_test:
 	$(IN_ENV) coverage report -m
 	$(IN_ENV) coverage html
 
-run: build
+local_run: build production_run
+	$(IN_ENV) via_bottle
+
+production_run:
 	$(IN_ENV) via_bottle
