@@ -9,7 +9,7 @@ All uploaded data is public and no accounts required. Neat privacy to make it ve
 ## Usage
 
 To get things going:
- 1. Run `make run`
+ 1. Run `make local_run`
  2. Open http://localhost:8080
 
 ### Docker
