@@ -2,12 +2,12 @@ import argparse
 import threading
 
 import bottle
-from bottle import response
 
 from ..api import *
 
 from via import logger
 from via.pull_journeys import pull_journeys
+from via.utils import setup_cache
 
 from via.geojson.generate import generate_geojson
 
@@ -38,6 +38,7 @@ def main():
     )
     args = parser.parse_args()
 
+    setup_cache()
     update_journeys()
     generate_geojson(
         None,
