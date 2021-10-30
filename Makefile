@@ -34,8 +34,15 @@ quick_test:
 	$(IN_ENV) coverage report -m
 	$(IN_ENV) coverage html
 
-local_run: build production_run
+run_api:
 	$(IN_ENV) via_bottle
+
+run_vue:
+	cd vue/via-web && npm run serve
+
+local_run: build production_run
+	$(IN_ENV) via_bottle &
+	cd vue/via-web && npm run serve
 
 production_run:
 	$(IN_ENV) via_bottle
