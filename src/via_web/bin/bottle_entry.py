@@ -14,7 +14,7 @@ from via.geojson.generate import generate_geojson
 
 def update_journeys():
     logger.info('Pulling journeys')
-    pull_journeys()
+    # pull_journeys()
     threading.Timer(60 * 60, update_journeys).start()
 
 
@@ -49,11 +49,11 @@ def main():
     )
     args = parser.parse_args()
 
-    update_journeys()
-    generate_geojson(
-        None,
-        version=None
-    )
+    # update_journeys()
+    # generate_geojson(
+    #     None,
+    #     version=None
+    # )
 
     bottle.debug(args.debug)
 

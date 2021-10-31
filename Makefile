@@ -15,6 +15,14 @@ setup:
 	$(IN_ENV) $(PYTHON) -m pip install --upgrade -r requirements.txt
 	$(IN_ENV) $(PYTHON) -m pip install --editable .
 
+vue_setup:
+	sudo apt install -y npm
+	cd vue/via-web && npm install
+
+production_setup:
+	$(IN_ENV) $(PYTHON) -m pip install --editable .
+	cd vue/via-web && npm install
+
 test_requirements:
 	$(IN_ENV) $(PYTHON) -m pip install --upgrade -r test_requirements.txt
 
@@ -37,12 +45,13 @@ quick_test:
 run_api:
 	$(IN_ENV) via_bottle
 
-run_vue:
+run_vue: vue_setup
 	cd vue/via-web && npm run serve
 
 local_run: build production_run
-	$(IN_ENV) via_bottle &
 	cd vue/via-web && npm run serve
+	$(IN_ENV) via_bottle &
 
 production_run:
+	cd vue/via-web && npm run serve &
 	$(IN_ENV) via_bottle
