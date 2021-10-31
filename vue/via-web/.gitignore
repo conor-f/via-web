@@ -1,16 +1,3 @@
-.env*
-cache
-docker-compose
-Dockerfile
-.dockerignore
-.git
-.github
-.gitignore
-README.md
-
-
-
-# From vue:
 .DS_Store
 node_modules
 /dist
