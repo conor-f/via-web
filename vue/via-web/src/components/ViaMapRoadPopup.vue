@@ -1,8 +1,6 @@
 <template>
   <p>
-    no
-    fucking
-    way!
+    Component in popup working!
   </p>
 </template>
 

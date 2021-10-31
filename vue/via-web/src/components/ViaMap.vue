@@ -1,5 +1,4 @@
 <template>
-  <ViaMapRoadPopup/>
   <div id="map-container" class="col">
     <div id="map-div">
       <l-map
@@ -27,7 +26,6 @@
 </template>
 
 <script>
-import ViaMapRoadPopup from './ViaMapRoadPopup.vue'
 import "leaflet/dist/leaflet.css";
 
 import {
@@ -43,7 +41,6 @@ export default {
     LMap,
     LTileLayer,
     LGeoJson,
-    ViaMapRoadPopup
   },
   data() {
     return {
@@ -77,21 +74,16 @@ export default {
       // name for now which isn't always populated.
 
       layer.bindPopup(
-        "<h3>Details:</h3>" +
+        "<h4 style='text-align: center'>Details:</h3>" +
         "Road Name: " + feature.properties.name + "<br/>" +
-        "Quality: " + feature.properties.avg +
-        "<ViaMapRoadPopup />"
+        "Quality: " + feature.properties.avg
       )
 
-      layer.on('mouseover', function(e) {
-        console.log(feature)
-        console.log(e)
+      layer.on('mouseover', function() {
         this.openPopup()
       })
 
-      layer.on('mouseout', function(e) {
-        console.log(layer)
-        console.log(e)
+      layer.on('mouseout', function() {
         this.closePopup()
       })
     }
