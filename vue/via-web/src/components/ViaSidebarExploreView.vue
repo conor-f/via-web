@@ -47,7 +47,7 @@ export default {
   methods: {
     submitForm() {
       axios.get(
-        "http://localhost:8081/journeys/get_geojson?earliest_time="
+        "https://via-api.randombits.host/journeys/get_geojson?earliest_time="
         + this.earliestDate + "&latest_time=" + this.latestDate
         + "&journey_type=" + this.journeyType,
       ).then(response => {
