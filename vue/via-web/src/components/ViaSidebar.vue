@@ -15,7 +15,7 @@
       </ViaSidebarItem>
 
       <ViaSidebarItem
-        collapsedIcon="https://via.randombits.host/static/resources/logo.png"
+        collapsedIcon="/logo.png"
         isCustomIcon
         expandedText="About"
         :isExpanded="isExpanded"
