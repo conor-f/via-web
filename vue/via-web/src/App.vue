@@ -15,7 +15,7 @@ export default {
   // TODO: This is messy and bad and shouldn't be done here...
   mounted() {
     axios.get(
-      "http://localhost:8081/journeys/get_geojson?earliest_time=2021-01&latest_time=2023-01&journey_type=bike"
+      "https://via-api.randombits.host/journeys/get_geojson?earliest_time=2021-01&latest_time=2023-01&journey_type=bike"
     ).then(response => {
       this.$store.commit('updateGeojson', response.data)
     }).catch(error => {
