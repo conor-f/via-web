@@ -2,9 +2,9 @@ name: ci
 
 # We want to deploy on all merges to main and any version tags.
 # On main push:
-#   - Build, tag, and push image as `testing`
+#   - Build, tag, and push image as `latest`
 # On tag matching "v*.*.*":
-#   - Build, tag, and push image as `latest` and `v*.*.*`
+#   - Build, tag, and push image as `latest`, `stable`, and `v*.*.*`
 on:
   push:
     branches:
@@ -28,14 +28,11 @@ jobs:
 
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
+            TAGS="$TAGS,${DOCKER_IMAGE}:stable"
 
             if [[ $VERSION =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
               TAGS="$TAGS,${DOCKER_IMAGE}:$VERSION"
             fi
-          fi
-
-          if [[ $GITHUB_REF == 'refs/heads/main' ]]; then
-            TAGS="$TAGS,${DOCKER_IMAGE}:testing"
           fi
 
           echo ::set-output name=tags::${TAGS}
