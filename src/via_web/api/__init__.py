@@ -9,7 +9,6 @@ from .info import *
 
 @bottle.route('/')
 def send_index():
-    print('1111')
     return render_page('index.tpl')
 
 
@@ -20,8 +19,6 @@ def get_static_resource(filename):
 
 @bottle.route('/static/templates/:filename#.*#')
 def render_page(filename):
-    print(filename)
-
     return bottle.template(
         os.path.join('static', 'templates', filename),
         initial_coords=[settings.VIZ_INITIAL_LAT, settings.VIZ_INITIAL_LNG],
