@@ -6,6 +6,8 @@
       <label for="earliest_date">Earliest:</label>
       <input type="month" id="earliest_date" v-model="earliestDate" min="2021-01">
 
+      <br/><br/>
+
       <label for="latest_date">Latest (inclusive):</label>
       <input type="month" id="latest_date" v-model="latestDate" max="2023-12"><br/><br/>
       <!-- End time ranges -->
@@ -20,6 +22,21 @@
       <input type="radio" id="car" v-model="journeyType" value="car">
       <label for="car">Car</label><br>
       <!-- End journey type -->
+
+      <br/>
+
+      <label for="showDetailsTable">Show Details Table</label>
+      <input
+        type="checkbox"
+        id="showDetailsTable"
+        v-model="showDetailsTable"
+        :style="{
+          'margin-left': '10px'
+        }"
+        @change="toggleDetailsTable"
+        />
+
+      <br/>
 
       <button
         type="button"
@@ -41,7 +58,8 @@ export default {
     return {
       earliestDate: '2021-01',
       latestDate: '2023-01',
-      journeyType: 'bike'
+      journeyType: 'bike',
+      showDetailsTable: false
     }
   },
   methods: {
@@ -55,6 +73,14 @@ export default {
       }).catch(error => {
         console.log(error);
       })
+    },
+    toggleDetailsTable() {
+      console.log('asdf')
+      console.log(this.showDetailsTable)
+      this.$store.commit(
+        'updateShouldShowDetailsTable',
+        this.showDetailsTable
+      )
     }
   }
 }

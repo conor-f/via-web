@@ -1,5 +1,5 @@
 <template>
-  <div id="map-container" class="col">
+  <div id="map-container">
     <div id="map-div">
       <l-map
         v-model="zoom"
@@ -79,6 +79,9 @@ export default {
         "Quality: " + feature.properties.avg
       )
 
+      // const popup = new ViaMapRoadPopup()
+      // layer.bindPopup(popup.$mount().$el)
+
       layer.on('mouseover', function() {
         this.openPopup()
       })
@@ -101,6 +104,9 @@ export default {
 #map-container {
   padding-right: 0;
   padding-left: 0;
+
+  width: 100%;
+  height: 100%;
 }
 
 #map-div {

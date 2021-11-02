@@ -99,7 +99,7 @@ export default {
 }
 
 .subcontent-collapsed::after {
-  content: " \f0d7";
+  content: "\f0d7";
   font-family: FontAwesome;
   display: inline;
   text-align: right;
@@ -107,11 +107,12 @@ export default {
 }
 
 .subcontent-expanded::after {
-  content: " \f0da";
+  content: "\f0da";
   font-family: FontAwesome;
   display: inline;
   text-align: right;
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 .subcontent {

@@ -2,7 +2,7 @@
   <div
     id="via-sidebar"
     class="d-none d-md-block"
-    :class="{sidebarExpanded: isExpanded, sidebarCollapsed: !isExpanded}"
+    :class="{'sidebar-expanded': isExpanded, 'sidebar-collapsed': !isExpanded}"
     >
     <ul class="list-group">
       <ViaSidebarItem
@@ -106,11 +106,12 @@ export default {
 }
 
 .sidebar-expanded {
+  /*
   width: 230px;
-  max-width: 230px;
+  max-width: 230px;*/
 }
 
 .sidebar-collapsed {
-  width: 60px;
+  /*width: 60px;*/
 }
 </style>
