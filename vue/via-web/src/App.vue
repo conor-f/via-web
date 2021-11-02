@@ -14,8 +14,17 @@ export default {
   },
   // TODO: This is messy and bad and shouldn't be done here...
   mounted() {
+    const urlParams = new URLSearchParams(window.location.search)
+
+    const earliestTime = urlParams.get("earliest_time") || "2021-01"
+    const latestTime = urlParams.get("latest_time") || "2023-01"
+    const journeyType = urlParams.get("journey_type") || "bike"
+
     axios.get(
-      "https://via-api.randombits.host/journeys/get_geojson?earliest_time=2021-01&latest_time=2023-01&journey_type=bike"
+      "https://via-api.randombits.host/journeys/get_geojson?" +
+      "earliest_time=" + earliestTime +
+      "&latest_time=" + latestTime +
+      "&journey_type=" + journeyType
     ).then(response => {
       this.$store.commit('updateGeojson', response.data)
     }).catch(error => {
