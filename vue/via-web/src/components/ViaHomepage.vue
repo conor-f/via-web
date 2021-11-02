@@ -5,7 +5,6 @@
       />
 
     <splitpanes
-      class="default-theme"
       horizontal
       >
       <pane min-size="50">
@@ -47,20 +46,27 @@ export default {
   computed: {
     shouldShowSidebar() {
       const urlParams = new URLSearchParams(window.location.search)
+
       return urlParams.get("show_sidebar") != "false"
     },
     shouldShowTables() {
-      // const urlParams = new URLSearchParams(window.location.search)
-      return this.$store.getters.shouldShowDetailsTableGetter
-
-      //return urlParams.get("show_tables") == "true" || stateInfo
+      return this.$store.state.shouldShowDetailsTable
     }
+  },
+  mounted() {
+    const urlParams = new URLSearchParams(window.location.search)
+    const shouldShow = urlParams.get("show_tables") == "true" || false
+
+    this.$store.commit(
+      'updateShouldShowDetailsTable',
+      shouldShow
+    )
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style >
 #body-container {
   margin-left: 0;
   margin-right: 0;
@@ -69,4 +75,24 @@ export default {
 
   display: flex;
 }
+
+.splitpanes__splitter {
+  background-color: #ccc;
+  position: relative;
+}
+.splitpanes__splitter:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: opacity 0.4s;
+  background-color: rgba(50, 50, 50, 0.3);
+  opacity: 0;
+  z-index: 10000;
+}
+.splitpanes__splitter:hover:before {
+  opacity: 1;
+}
+.splitpanes--horizontal > .splitpanes__splitter:before {top: -30px;bottom: -30px;width: 100%;}
+
 </style>

@@ -77,14 +77,14 @@ export default {
   },
   computed: {
     formattedRows() {
-      let a = this.$store.state.geojsonResponse
+      let a = this.$store.state.tableDetails
 
       if (a == null) {
         return []
       }
 
       let returnMe = []
-      for (let e of a.features) {
+      for (let e of a) {
         if (
           e.properties.name == '' ||
           e.properties.name == null ||

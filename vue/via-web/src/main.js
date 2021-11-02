@@ -5,12 +5,16 @@ const store = createStore({
   state () {
     return {
       geojsonResponse: null,
+      tableDetails: null,
       shouldShowDetailsTable: false
     }
   },
   mutations: {
     updateGeojson(state, geojsonResponse) {
       state.geojsonResponse = geojsonResponse
+    },
+    updateTableDetails(state, tableDetails) {
+      state.tableDetails = tableDetails
     },
     updateShouldShowDetailsTable(state, val) {
       state.shouldShowDetailsTable = val
@@ -19,6 +23,9 @@ const store = createStore({
   getters: {
     geojsonResponseGetter: state => {
       return state.geojsonResponse
+    },
+    tableDetailsGetter: state => {
+      return state.tableDetails
     },
     shouldShowDetailsTableGetter: state => {
       return state.shouldShowDetailsTable

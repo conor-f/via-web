@@ -21,12 +21,15 @@ export default {
     const journeyType = urlParams.get("journey_type") || "bike"
 
     axios.get(
+      // TODO: This host shouldn't be hardcoded.
       "https://via-api.randombits.host/journeys/get_geojson?" +
       "earliest_time=" + earliestTime +
       "&latest_time=" + latestTime +
       "&journey_type=" + journeyType
     ).then(response => {
+      // Pretty sure these shouldn't be set in this way.
       this.$store.commit('updateGeojson', response.data)
+      this.$store.commit('updateTableDetails', response.data.features)
     }).catch(error => {
       console.log(error);
     })

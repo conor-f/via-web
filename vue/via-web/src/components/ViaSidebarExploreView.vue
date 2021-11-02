@@ -59,12 +59,14 @@ export default {
       earliestDate: '2021-01',
       latestDate: '2023-01',
       journeyType: 'bike',
+      // TODO: I think this is bad practice...
       showDetailsTable: false
     }
   },
   methods: {
     submitForm() {
       axios.get(
+        // TODO: This should be populated intelligently.
         "https://via-api.randombits.host/journeys/get_geojson?earliest_time="
         + this.earliestDate + "&latest_time=" + this.latestDate
         + "&journey_type=" + this.journeyType,
@@ -75,13 +77,14 @@ export default {
       })
     },
     toggleDetailsTable() {
-      console.log('asdf')
-      console.log(this.showDetailsTable)
       this.$store.commit(
         'updateShouldShowDetailsTable',
         this.showDetailsTable
       )
     }
+  },
+  mounted() {
+    this.showDetailsTable = this.$store.state.shouldShowDetailsTable
   }
 }
 </script>

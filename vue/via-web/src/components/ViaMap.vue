@@ -6,6 +6,7 @@
         v-model:zoom="zoom"
         :center="[53.35, -6.26]"
         :zoomAnimation="true"
+        @update:bounds="mapMoveHandler"
         >
         <l-tile-layer
           url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicGhvbmVtYW4iLCJhIjoiY2tzazlwendiMDZ3NTJvcG50dzBlZDIzZCJ9.L0wR8vdrRgO4RQR6yLF6UA"
@@ -31,8 +32,10 @@ import "leaflet/dist/leaflet.css";
 import {
   LMap,
   LTileLayer,
-  LGeoJson
+  LGeoJson,
 } from "@vue-leaflet/vue-leaflet";
+
+import L from 'leaflet'
 
 
 export default {
@@ -89,6 +92,19 @@ export default {
       layer.on('mouseout', function() {
         this.closePopup()
       })
+    },
+    mapMoveHandler(event) {
+      let returnMe = this.geojsonLayer.features.filter((f) => {
+        // TODO: This looks like a bug in vue-leaflet. Mixed up coords.
+        let p = L.latLng(
+          f.geometry.coordinates[0][1],
+          f.geometry.coordinates[0][0]
+        )
+
+        return event.contains(p)
+      })
+
+      this.$store.commit('updateTableDetails', returnMe)
     }
   },
   computed: {
