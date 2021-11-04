@@ -5,6 +5,7 @@ import bottle
 from via import settings
 from .journeys import *
 from .info import *
+from .collisions import *
 
 
 @bottle.route('/')

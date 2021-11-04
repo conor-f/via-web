@@ -77,6 +77,17 @@ export default {
       })
     },
     toggleDetailsTable() {
+      // TODO: This is trash. Need to be using router.
+      let searchParams = new URLSearchParams(window.location.search)
+      if (this.showDetailsTable) {
+        searchParams.set('show_tables', this.showDetailsTable)
+      } else {
+        searchParams.delete('show_tables')
+      }
+
+      let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + searchParams.toString()
+      window.history.pushState({path: newurl}, '', newurl)
+
       this.$store.commit(
         'updateShouldShowDetailsTable',
         this.showDetailsTable
