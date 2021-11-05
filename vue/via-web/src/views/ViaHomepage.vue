@@ -1,33 +1,38 @@
 <template>
   <div id="body-container">
     <ViaSidebar
-      v-if="shouldShowSidebar"
+      v-if="$store.state.showSidebar"
       />
 
     <splitpanes
       horizontal
       >
       <pane min-size="50">
-        <ViaMap/>
+        <ViaMap
+          ref="viaMapComponent"
+          />
       </pane>
 
       <pane
         size="30"
-        v-if="shouldShowTables"
+        v-if="showDetailsTable"
         >
-        <ViaDetailTables/>
+        <ViaDetailTables
+          @detailsTableRowSegmentClick="handleDetailsTableRowSegmentClick"/>
       </pane>
     </splitpanes>
   </div>
 </template>
 
 <script>
-import ViaSidebar from './ViaSidebar.vue'
-import ViaMap from './ViaMap.vue'
-import ViaDetailTables from './ViaDetailTables.vue'
+import ViaSidebar from '../components/ViaSidebar.vue'
+import ViaMap from '../components/ViaMap.vue'
+import ViaDetailTables from '../components/ViaDetailTables.vue'
 
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
+
+import { mapState } from 'vuex'
 
 
 export default {
@@ -40,27 +45,43 @@ export default {
     Pane
   },
   data() {
-    return {
-    }
+    return { }
   },
   computed: {
-    shouldShowSidebar() {
-      const urlParams = new URLSearchParams(window.location.search)
-
-      return urlParams.get("show_sidebar") != "false"
-    },
-    shouldShowTables() {
-      return this.$store.state.shouldShowDetailsTable
+    ...mapState([
+      'showSidebar',
+      'showDetailsTable'
+    ]),
+  },
+  methods: {
+    handleDetailsTableRowSegmentClick(event) {
+      this.$refs.viaMapComponent.highlightSegment(event)
     }
   },
   mounted() {
-    const urlParams = new URLSearchParams(window.location.search)
-    const shouldShow = urlParams.get("show_tables") == "true" || false
+    this.$store.commit(
+      'updateShowSidebar',
+      this.$route.query.showSidebar
+    )
+    this.$store.commit(
+      'updateShowDetailsTable',
+      this.$route.query.showDetailsTable
+    )
 
     this.$store.commit(
-      'updateShouldShowDetailsTable',
-      shouldShow
+      'updateLat',
+      parseFloat(this.$route.query.lat) 
     )
+    this.$store.commit(
+      'updateLng',
+      parseFloat(this.$route.query.lng) 
+    )
+    this.$store.commit(
+      'updateZoomLevel',
+      parseInt(this.$route.query.zoomLevel) 
+    )
+
+    this.$store.dispatch('getGeojsonFromAPI')
   }
 }
 </script>

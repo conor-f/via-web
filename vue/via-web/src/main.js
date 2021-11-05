@@ -1,36 +1,177 @@
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
+import { createRouter, createWebHistory } from 'vue-router'
+
+import axios from 'axios'
+import L from 'leaflet'
+
+import ViaHomepage from './views/ViaHomepage.vue'
+
+
+function updateURLHelper(state) {
+  const url = new URL(window.location)
+
+  url.searchParams.set(
+    'showDetailsTable',
+    state.showDetailsTable
+  )
+  url.searchParams.set(
+    'earliestDate',
+    state.earliestDate
+  )
+  url.searchParams.set(
+    'latestDate',
+    state.latestDate
+  )
+  url.searchParams.set(
+    'journeyType',
+    state.journeyType
+  )
+  url.searchParams.set(
+    'lat',
+    state.lat
+  )
+  url.searchParams.set(
+    'lng',
+    state.lng
+  )
+  url.searchParams.set(
+    'zoomLevel',
+    state.zoomLevel
+  )
+
+  history.pushState('', 'Via - Road Quality Analysis', url);
+}
 
 const store = createStore({
-  state () {
+  state() {
     return {
-      geojsonResponse: null,
-      tableDetails: null,
-      shouldShowDetailsTable: false
+      // UI Controllers:
+      showSidebar: null,
+      showDetailsTable: null,
+
+      // Form Values:
+      earliestDate: '2021-01',
+      latestDate: '2021-12',
+      journeyType: 'bike',
+
+      // Map Details:
+      lat: 53.35,
+      lng: -6.28,
+      zoomLevel: 12,
+      latLngBounds: null, // This is the North-West and South-East LatLng.
+
+      // Computed Results:
+      geojsonResponse: null,  // Used for the map layer.
+      tableDetails: null  // Filtered version of the response for the table.
     }
   },
   mutations: {
+    updateShowSidebar(state, val) {
+      // Return true if val is unset or anything not falsey.
+      if (val !== undefined && (val == 'false' || !val)) {
+        state.showSidebar = false
+      } else {
+        state.showSidebar = true
+      }
+    },
+    updateShowDetailsTable(state, val) {
+      if (val == 'false' || !val) {
+        state.showDetailsTable = false
+      } else {
+        state.showDetailsTable = true
+      }
+      updateURLHelper(state)
+    },
+    updateEarliestDate(state, val) {
+      state.earliestDate = val
+      updateURLHelper(state)
+    },
+    updateLatestDate(state, val) {
+      state.latestDate = val
+      updateURLHelper(state)
+    },
+    updateJourneyType(state, val) {
+      state.journeyType = val
+      updateURLHelper(state)
+    },
+    updateLat(state, val) {
+      if (!Number.isNaN(val)) {
+        state.lat = val
+        updateURLHelper(state)
+      }
+    },
+    updateLng(state, val) {
+      if (!Number.isNaN(val)) {
+        state.lng = val
+        updateURLHelper(state)
+      }
+    },
+    updateZoomLevel(state, val) {
+      if (!Number.isNaN(val)) {
+        state.zoomLevel = val
+        updateURLHelper(state)
+      }
+    },
+    updateLatLngBounds(state, val) {
+      state.latLngBounds = val
+    },
     updateGeojson(state, geojsonResponse) {
       state.geojsonResponse = geojsonResponse
     },
     updateTableDetails(state, tableDetails) {
       state.tableDetails = tableDetails
     },
-    updateShouldShowDetailsTable(state, val) {
-      state.shouldShowDetailsTable = val
+  },
+  actions: {
+    getGeojsonFromAPI({commit, state, dispatch}) {
+      axios.get(
+        // TODO: This host should be populated intelligently.
+        "https://via-api.randombits.host/journeys/get_geojson?earliest_time="
+        + state.earliestDate + "&latest_time=" + state.latestDate
+        + "&journey_type=" + state.journeyType,
+      ).then(response => {
+        commit('updateGeojson', response.data)
+        dispatch('filterTableDetails')
+      }).catch(error => {
+        console.log(error);
+      })
+    },
+    filterTableDetails({commit, state}) {
+      let filteredDetails = state.geojsonResponse.features.filter((f) => {
+        // TODO: This looks like a bug in vue-leaflet. Mixed up coords.
+        let p = L.latLng(
+          f.geometry.coordinates[0][1],
+          f.geometry.coordinates[0][0]
+        )
+
+        if (state.latLngBounds == null) {
+          return true
+        }
+
+        // TODO: This contains method looks visually incorrect.
+        return state.latLngBounds.contains(p)
+      })
+
+      commit('updateTableDetails', filteredDetails)
     }
   },
-  getters: {
-    geojsonResponseGetter: state => {
-      return state.geojsonResponse
-    },
-    tableDetailsGetter: state => {
-      return state.tableDetails
-    },
-    shouldShowDetailsTableGetter: state => {
-      return state.shouldShowDetailsTable
-    }
+})
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: ViaHomepage,
+    // TODO: This only lets us see the params as route properties, not
+    // component props...
+    props: true
   }
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routes
 })
 
 import App from './App.vue'
@@ -47,6 +188,7 @@ import 'primeicons/primeicons.css'
 const app = createApp(App)
 
 app.use(store)
+app.use(router)
 app.use(PrimeVue)
 
 app.component('DataTable', DataTable)

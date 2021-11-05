@@ -63,7 +63,7 @@ def main():
         'port': args.port,
         'debug': args.debug,
         'reloader': args.reloader,
-        'server': 'gunicorn'
+        # 'server': 'gunicorn'
     }
 
     bottle.run(

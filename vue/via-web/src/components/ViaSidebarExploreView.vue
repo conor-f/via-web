@@ -3,92 +3,158 @@
   <div id="inputs_container">
     <form id="pull_journeys_form">
       <!-- Time ranges: -->
-      <label for="earliest_date">Earliest:</label>
-      <input type="month" id="earliest_date" v-model="earliestDate" min="2021-01">
+      <label for="earliest_date">
+        Earliest:
+      </label>
+      <br/>
 
-      <br/><br/>
+      <input
+        type="month"
+        v-model="earliestDate"
+        min="2021-01"
+        />
+      <br/>
+      <br/>
 
-      <label for="latest_date">Latest (inclusive):</label>
-      <input type="month" id="latest_date" v-model="latestDate" max="2023-12"><br/><br/>
+      <label for="latest_date">
+        Latest:
+      </label>
+      <br/>
+
+      <input
+        type="month"
+        v-model="latestDate"
+        max="2023-12"
+        />
+      <br/>
+      <br/>
       <!-- End time ranges -->
 
       <!-- Journey type: -->
-      <input type="radio" id="all_journeys" v-model="journeyType" value="all">
-      <label for="all">All Journeys</label><br>
-      <input type="radio" checked="checked" id="bike" v-model="journeyType" value="bike">
-      <label for="bike">Bike</label><br>
-      <input type="radio" id="bus" v-model="journeyType" value="bus">
-      <label for="bus">Bus</label><br>
-      <input type="radio" id="car" v-model="journeyType" value="car">
-      <label for="car">Car</label><br>
+      <label for="all">
+        All Journeys
+      </label>
+      <input
+        type="radio"
+        value="all"
+        v-model="journeyType"
+        class="journeyRadioButton"
+        />
+      <br/>
+
+      <label for="bike">
+        Bike
+      </label>
+      <input
+        type="radio"
+        value="bike"
+        v-model="journeyType"
+        class="journeyRadioButton"
+        />
+      <br/>
+
+      <label for="bus">
+        Bus
+      </label>
+      <input
+        type="radio"
+        value="bus"
+        v-model="journeyType"
+        class="journeyRadioButton"
+        />
+      <br/>
+
+      <label for="car">
+        Car
+      </label>
+      <input
+        type="radio"
+        value="car"
+        v-model="journeyType"
+        class="journeyRadioButton"
+        />
+      <br/>
+
       <!-- End journey type -->
 
       <br/>
 
-      <label for="showDetailsTable">Show Details Table</label>
+      <label for="showDetailsTable">
+        Show Details Table
+      </label>
       <input
         type="checkbox"
-        id="showDetailsTable"
         v-model="showDetailsTable"
         :style="{
           'margin-left': '10px'
         }"
-        @change="toggleDetailsTable"
         />
-
-      <br/>
-
-      <button
-        type="button"
-        @click="submitForm()"
-        >
-        Submit
-      </button>
     </form>
   </div>
 
 </template>
 
 <script>
-import axios from 'axios'
+import { mapState } from 'vuex'
+
 
 export default {
   name: 'ViaSidebarExploreView',
   data() {
     return {
-      earliestDate: '2021-01',
-      latestDate: '2023-01',
-      journeyType: 'bike',
-      // TODO: I think this is bad practice...
-      showDetailsTable: false
     }
   },
-  methods: {
-    submitForm() {
-      axios.get(
-        // TODO: This should be populated intelligently.
-        "https://via-api.randombits.host/journeys/get_geojson?earliest_time="
-        + this.earliestDate + "&latest_time=" + this.latestDate
-        + "&journey_type=" + this.journeyType,
-      ).then(response => {
-        this.$store.commit('updateGeojson', response.data)
-      }).catch(error => {
-        console.log(error);
-      })
+  computed: {
+    ...mapState([
+      'earliestDate',
+      'latestDate',
+      'journeyType',
+      'showDetailsTable',
+    ]),
+    earliestDate: {
+      get() {
+        return this.$store.state.earliestDate
+      },
+      set(val) {
+        this.$store.commit('updateEarliestDate', val)
+        this.$store.dispatch('getGeojsonFromAPI')
+      }
     },
-    toggleDetailsTable() {
-      this.$store.commit(
-        'updateShouldShowDetailsTable',
-        this.showDetailsTable
-      )
-    }
+    latestDate: {
+      get() {
+        return this.$store.state.latestDate
+      },
+      set(val) {
+        this.$store.commit('updateLatestDate', val)
+        this.$store.dispatch('getGeojsonFromAPI')
+      }
+    },
+    journeyType: {
+      get() {
+        return this.$store.state.journeyType
+      },
+      set(val) {
+        this.$store.commit('updateJourneyType', val)
+        this.$store.dispatch('getGeojsonFromAPI')
+      }
+    },
+    showDetailsTable: {
+      get() {
+        return this.$store.state.showDetailsTable
+      },
+      set(val) {
+        this.$store.commit('updateShowDetailsTable', val)
+      }
+    },
   },
-  mounted() {
-    this.showDetailsTable = this.$store.state.shouldShowDetailsTable
-  }
+  methods: { },
+  mounted() { }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.journeyRadioButton {
+  margin-left: 0.5rem;
+}
 </style>
