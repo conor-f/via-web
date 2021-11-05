@@ -17,7 +17,7 @@ INSTALL_REQUIRES = (
 
 setup(
     name='via-web',
-    version='0.1.2',
+    version='0.1.3',
     python_requires='>=3.6',
     description='Analysing and serving crowdsourced road quality data',
     author='Conor Flynn',
