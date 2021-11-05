@@ -2,7 +2,7 @@ import bottle
 
 from via import logger
 
-from via.models.collisions.utils import get_collisions
+from via.collisions.utils import get_collisions
 
 COLLISIONS = get_collisions()
 
