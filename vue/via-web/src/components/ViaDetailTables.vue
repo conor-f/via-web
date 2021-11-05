@@ -11,6 +11,7 @@
     scrollHeight="flex"
     v-model:filters="filters"
     filterDisplay="menu"
+    @row-click="handleRowClick"
     >
     <Column
       field="segment"
@@ -98,11 +99,24 @@ export default {
         returnMe.push({
           'segment': e.properties.name,
           'quality': parseInt(e.properties.avg),
-          'usage': parseInt(e.properties.count)
+          'usage': parseInt(e.properties.count),
+          'startCoords': e.geometry.coordinates[0],
+          'endCoords': e.geometry.coordinates[1],
         })
       }
 
       return returnMe
+    }
+  },
+  methods: {
+    handleRowClick(event) {
+      this.$emit(
+        'detailsTableRowSegmentClick',
+        {
+          segmentStartCoords: event.data.startCoords,
+          segmentEndCoords: event.data.endCoords
+        }
+      )
     }
   }
 }

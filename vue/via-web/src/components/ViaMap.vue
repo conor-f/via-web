@@ -2,11 +2,12 @@
   <div id="map-container">
     <div id="map-div">
       <l-map
-        v-model="zoom"
-        v-model:zoom="zoom"
-        :center="[53.35, -6.26]"
+        v-model="zoomLevel"
+        v-model:zoom="zoomLevel"
         :zoomAnimation="true"
         @update:bounds="mapMoveHandler"
+        @move="mapMoveHandler"
+        @ready="mapReadyHandler"
         >
         <l-tile-layer
           url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicGhvbmVtYW4iLCJhIjoiY2tzazlwendiMDZ3NTJvcG50dzBlZDIzZCJ9.L0wR8vdrRgO4RQR6yLF6UA"
@@ -21,6 +22,13 @@
           :geojson="geojsonLayer"
           :options="geojsonOptions"
           />
+        <l-polyline
+          :lat-lngs="coordsToHighlight"
+          color="royalblue"
+          :weight="highlightedSegmentWeight"
+          :opacity="highlightedSegmentOpacity"
+          :zIndex="3"
+          />
       </l-map>
     </div>
   </div>
@@ -33,9 +41,10 @@ import {
   LMap,
   LTileLayer,
   LGeoJson,
+  LPolyline
 } from "@vue-leaflet/vue-leaflet";
 
-import L from 'leaflet'
+import { mapState } from 'vuex'
 
 
 export default {
@@ -44,14 +53,18 @@ export default {
     LMap,
     LTileLayer,
     LGeoJson,
+    LPolyline
   },
   data() {
     return {
-      zoom: 12,
       geojsonOptions: {
         style: this.geojsonStyle,
         onEachFeature: this.geojsonOnEachFeature
-      }
+      },
+      coordsToHighlight: [],
+      showHighlightedSegment: false,
+      highlightedSegmentOpacity: 1.0,
+      highlightedSegmentWeight: 30.0
     };
   },
   methods: {
@@ -64,7 +77,7 @@ export default {
             50
           ) / 50
         ),
-        weight: 5.5
+        weight: 125 * (1.0 / this.zoomLevel)
       }
     },
     getColour(value) {
@@ -93,21 +106,89 @@ export default {
         this.closePopup()
       })
     },
+    mapReadyHandler(event) {
+      // event.flyTo(
+      event.setView(
+        {
+          lat: this.lat,
+          lng: this.lng
+        },
+        this.zoomLevel
+      )
+    },
     mapMoveHandler(event) {
-      let returnMe = this.geojsonLayer.features.filter((f) => {
-        // TODO: This looks like a bug in vue-leaflet. Mixed up coords.
-        let p = L.latLng(
-          f.geometry.coordinates[0][1],
-          f.geometry.coordinates[0][0]
-        )
+      if (typeof(event.getBounds) === 'function') {
+        this.$store.commit('updateLatLngBounds', event.getBounds())
+        this.$store.commit('updateLat', event.getCenter().lat)
+        this.$store.commit('updateLng', event.getCenter().lng)
+      } else if (
+        typeof(event.target) !== 'undefined' &&
+        typeof(event.target.getBounds) === 'function'
+      ) {
+        this.$store.commit('updateLatLngBounds', event.target.getBounds())
+        this.$store.commit('updateLat', event.target.getCenter().lat)
+        this.$store.commit('updateLng', event.target.getCenter().lng)
+      } else {
+        this.$store.commit('updateLatLngBounds', event)
+      }
 
-        return event.contains(p)
-      })
+      this.$store.dispatch('filterTableDetails')
+    },
+    fadeOutHighlightedSegment(opacity=1) {
+      if (opacity > 0) {
+        opacity -= 0.05
 
-      this.$store.commit('updateTableDetails', returnMe)
+        this.highlightedSegmentOpacity = opacity
+        this.highlightedSegmentWeight = opacity * 30
+
+        setTimeout( () => {
+          this.fadeOutHighlightedSegment(opacity)
+        }, 100)
+      } else {
+        this.showHighlightedSegment = false;
+      }
+    },
+    highlightSegment(event) {
+      this.coordsToHighlight = Array(
+        Array(event.segmentStartCoords[1], event.segmentStartCoords[0]),
+        Array(event.segmentEndCoords[1], event.segmentEndCoords[0])
+      )
+
+      this.showHighlightedSegment = true
+      this.fadeOutHighlightedSegment()
     }
   },
   computed: {
+    ...mapState([
+      'lat',
+      'lng',
+      'zoomLevel',
+      'geojsonResponse',
+    ]),
+    lat: {
+      get() {
+        return this.$store.state.lat
+      },
+      set(val) {
+        this.$store.commit('updateLat', parseFloat(val))
+      }
+    },
+    lng: {
+      get() {
+        return this.$store.state.lng
+      },
+      set(val) {
+        this.$store.commit('updateLng', parseFloat(val))
+      }
+    },
+    zoomLevel: {
+      get() {
+        return this.$store.state.zoomLevel
+      },
+      set(val) {
+        this.$store.commit('updateZoomLevel', val)
+      }
+    },
     geojsonLayer() {
       return this.$store.state.geojsonResponse
     },
