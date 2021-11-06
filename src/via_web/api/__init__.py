@@ -2,7 +2,11 @@ import os
 
 import bottle
 
-from via import settings
+from ..settings import (
+    VIZ_INITIAL_LAT,
+    VIZ_INITIAL_LNG,
+    VIZ_INITIAL_ZOOM
+)
 from .journeys import *
 from .info import *
 
@@ -21,8 +25,8 @@ def get_static_resource(filename):
 def render_page(filename):
     return bottle.template(
         os.path.join('static', 'templates', filename),
-        initial_coords=[settings.VIZ_INITIAL_LAT, settings.VIZ_INITIAL_LNG],
-        initial_zoom=settings.VIZ_INITIAL_ZOOM
+        initial_coords=[VIZ_INITIAL_LAT, VIZ_INITIAL_LNG],
+        initial_zoom=VIZ_INITIAL_ZOOM
     )
 
 

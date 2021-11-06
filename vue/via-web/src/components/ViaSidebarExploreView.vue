@@ -30,55 +30,6 @@
       <br/>
       <!-- End time ranges -->
 
-      <!-- Journey type: -->
-      <label for="all">
-        All Journeys
-      </label>
-      <input
-        type="radio"
-        value="all"
-        v-model="journeyType"
-        class="journeyRadioButton"
-        />
-      <br/>
-
-      <label for="bike">
-        Bike
-      </label>
-      <input
-        type="radio"
-        value="bike"
-        v-model="journeyType"
-        class="journeyRadioButton"
-        />
-      <br/>
-
-      <label for="bus">
-        Bus
-      </label>
-      <input
-        type="radio"
-        value="bus"
-        v-model="journeyType"
-        class="journeyRadioButton"
-        />
-      <br/>
-
-      <label for="car">
-        Car
-      </label>
-      <input
-        type="radio"
-        value="car"
-        v-model="journeyType"
-        class="journeyRadioButton"
-        />
-      <br/>
-
-      <!-- End journey type -->
-
-      <br/>
-
       <label for="showDetailsTable">
         Show Details Table
       </label>
@@ -108,7 +59,6 @@ export default {
     ...mapState([
       'earliestDate',
       'latestDate',
-      'journeyType',
       'showDetailsTable',
     ]),
     earliestDate: {
@@ -126,15 +76,6 @@ export default {
       },
       set(val) {
         this.$store.commit('updateLatestDate', val)
-        this.$store.dispatch('getGeojsonFromAPI')
-      }
-    },
-    journeyType: {
-      get() {
-        return this.$store.state.journeyType
-      },
-      set(val) {
-        this.$store.commit('updateJourneyType', val)
         this.$store.dispatch('getGeojsonFromAPI')
       }
     },

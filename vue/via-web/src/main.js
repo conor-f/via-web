@@ -24,10 +24,6 @@ function updateURLHelper(state) {
     state.latestDate
   )
   url.searchParams.set(
-    'journeyType',
-    state.journeyType
-  )
-  url.searchParams.set(
     'lat',
     state.lat
   )
@@ -53,7 +49,6 @@ const store = createStore({
       // Form Values:
       earliestDate: '2021-01',
       latestDate: '2021-12',
-      journeyType: 'bike',
 
       // Map Details:
       lat: 53.35,
@@ -91,10 +86,6 @@ const store = createStore({
       state.latestDate = val
       updateURLHelper(state)
     },
-    updateJourneyType(state, val) {
-      state.journeyType = val
-      updateURLHelper(state)
-    },
     updateLat(state, val) {
       if (!Number.isNaN(val)) {
         state.lat = val
@@ -129,7 +120,6 @@ const store = createStore({
         // TODO: This host should be populated intelligently.
         "https://via-api.randombits.host/journeys/get_geojson?earliest_time="
         + state.earliestDate + "&latest_time=" + state.latestDate
-        + "&journey_type=" + state.journeyType,
       ).then(response => {
         commit('updateGeojson', response.data)
         dispatch('filterTableDetails')
