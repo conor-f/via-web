@@ -55,7 +55,7 @@ def main():
 
     update_journeys()
     generate_geojson(
-        None,
+        'bike',
         version=None
     )
 

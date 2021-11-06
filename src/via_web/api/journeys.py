@@ -16,11 +16,10 @@ def get_geojson():
 
     earliest_time = datetime.datetime.strptime(bottle.request.query.earliest_time, '%Y-%m')
     latest_time = datetime.datetime.strptime(bottle.request.query.latest_time, '%Y-%m')
-    journey_type = bottle.request.query.journey_type
 
     try:
         data = retrieve.get_geojson(
-            journey_type,
+            'bike',
             earliest_time=earliest_time,
             latest_time=latest_time,
             place=None,  # TODO
@@ -29,7 +28,7 @@ def get_geojson():
         )
     except FileNotFoundError:
         generate.generate_geojson(
-            journey_type,
+            'bike',
             earliest_time=earliest_time,
             latest_time=latest_time,
             place=None,  # TODO
@@ -38,7 +37,7 @@ def get_geojson():
         )
 
         data = retrieve.get_geojson(
-            journey_type,
+            'bike',
             earliest_time=earliest_time,
             latest_time=latest_time,
             place=None,  # TODO
