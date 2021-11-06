@@ -4,6 +4,7 @@ import threading
 import bottle
 
 from ..api import *
+from ..settings import PRELOAD_CACHE
 
 from via import logger
 from via.pull_journeys import pull_journeys
@@ -49,7 +50,9 @@ def main():
     )
     args = parser.parse_args()
 
-    setup_cache()
+    if PRELOAD_CACHE:
+        setup_cache()
+
     update_journeys()
     generate_geojson(
         None,
