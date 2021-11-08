@@ -13,9 +13,9 @@ def get_geojson():
     # use caches / premade geojson files
 
     try:
-        data = retrieve_collision_geojson('bicycle', county='dublin')
+        data = retrieve_collision_geojson(transport_type='bicycle', county='dublin')
     except FileNotFoundError:
-        generate_collision_geojson('bicycle', county='dublin')
-        data = retrieve_collision_geojson('bicycle', county='dublin')
+        generate_collision_geojson(transport_type='bicycle', county='dublin')
+        data = retrieve_collision_geojson(transport_type='bicycle', county='dublin')
 
     return data
