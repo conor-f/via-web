@@ -132,6 +132,8 @@ export default {
         this.$store.commit('updateLatLngBounds', event)
       }
 
+      // FIXME: This happens too frequently, if click and drag moving
+      // and are zoomed out a lot things slow down to a crawl
       this.$store.dispatch('filterTableDetails')
     },
     fadeOutHighlightedSegment(opacity=1) {

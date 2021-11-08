@@ -9,6 +9,7 @@ from ..settings import (
 )
 from .journeys import *
 from .info import *
+from .collisions import *
 
 
 @bottle.route('/')

@@ -1,30 +1,21 @@
 import bottle
 
 from via import logger
-
-from via.collisions.utils import get_collisions
-
-COLLISIONS = get_collisions()
+from via.collisions.utils import generate_geojson as generate_collision_geojson
+from via.collisions.utils import retrieve_geojson as retrieve_collision_geojson
 
 
 @bottle.route('/collisions/get_geojson')
 def get_geojson():
     logger.info('Getting collision GeoJSON')
 
-    filters = {
-        'county': getattr(bottle.request.query, 'county', None),
-        'year': getattr(bottle.request.query, 'year', None),
-        'vehicle_type': getattr(bottle.request.query, 'vehicle_type', None)
-    }
+    # FIXME: since this is so slow we can't do all of ireland
+    # use caches / premade geojson files
 
     try:
-        filters['year'] = int(filters['year'])
-    except:
-        pass
+        data = retrieve_collision_geojson(transport_type='bicycle', county='dublin')
+    except FileNotFoundError:
+        generate_collision_geojson(transport_type='bicycle', county='dublin')
+        data = retrieve_collision_geojson(transport_type='bicycle', county='dublin')
 
-    # if None we don't want to get where the value is None, rather
-    # we don't care so remove it from the filter
-    filters = {k: v for k, v in filters.items() if v is not None and v != 'all'}
-
-    dublin_collisions = COLLISIONS.filter(**filters)
-    return dublin_collisions.geojson
+    return data

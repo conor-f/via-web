@@ -11,7 +11,7 @@ INSTALL_REQUIRES = (
     'boto3',
     'bottle',
     'gunicorn',
-    'via-api==0.0.26',
+    'via-api==0.0.39',
     'osmnx'
 )
 
