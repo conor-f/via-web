@@ -48,7 +48,7 @@ const store = createStore({
 
       // Form Values:
       earliestDate: '2021-01',
-      latestDate: '2021-12',
+      latestDate: '2022-12',
 
       // Map Details:
       lat: 53.35,
@@ -121,6 +121,9 @@ const store = createStore({
         "https://via-api.randombits.host/journeys/get_geojson?earliest_time="
         + state.earliestDate + "&latest_time=" + state.latestDate
       ).then(response => {
+        console.log("Looking for the API? This is the raw data you can use! Get in touch on Github if you want more details:")
+        console.log(response.data)
+
         commit('updateGeojson', response.data)
         dispatch('filterTableDetails')
       }).catch(error => {

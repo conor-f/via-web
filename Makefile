@@ -19,7 +19,7 @@ vue_setup:
 	sudo apt install -y npm
 	cd vue/via-web && npm install
 
-production_setup:
+production_setup: setup
 	$(IN_ENV) $(PYTHON) -m pip install --editable .
 	cd vue/via-web && npm install
 
