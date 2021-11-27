@@ -41,13 +41,13 @@
       :style="{width: '15%'}"
       />
     <Column
-      field="quality"
+      field="speed"
       header="Speed"
       :sortable="true"
       :style="{width: '15%'}"
       />
     <Column
-      field="usage"
+      field="collisions"
       header="Traffic Incidents"
       :sortable="true"
       :style="{width: '15%'}"
@@ -91,7 +91,8 @@ export default {
           e.properties.name == null ||
           e.properties.name.toString().includes(',') ||
           isNaN(parseInt(e.properties.avg)) ||
-          isNaN(parseInt(e.properties.count))
+          isNaN(parseInt(e.properties.count)) ||
+          isNaN(parseFloat(e.properties.speed))
         ) {
           continue
         }
@@ -100,6 +101,8 @@ export default {
           'segment': e.properties.name,
           'quality': parseInt(e.properties.avg),
           'usage': parseInt(e.properties.count),
+          'speed': parseFloat(e.properties.speed).toPrecision(2),
+          'collisions': e.properties.collisions.length,
           'startCoords': e.geometry.coordinates[0],
           'endCoords': e.geometry.coordinates[1],
         })

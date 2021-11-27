@@ -24,7 +24,7 @@
       <input
         type="month"
         v-model="latestDate"
-        max="2023-12"
+        max="2022-12"
         />
       <br/>
       <br/>
