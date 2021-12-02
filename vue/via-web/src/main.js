@@ -16,6 +16,10 @@ function updateURLHelper(state) {
     state.showDetailsTable
   )
   url.searchParams.set(
+    'selectedMetric',
+    state.selectedMetric
+  )
+  url.searchParams.set(
     'earliestDate',
     state.earliestDate
   )
@@ -45,6 +49,7 @@ const store = createStore({
       // UI Controllers:
       showSidebar: null,
       showDetailsTable: null,
+      selectedMetric: 'quality',
 
       // Form Values:
       earliestDate: '2021-01',
@@ -77,6 +82,11 @@ const store = createStore({
         state.showDetailsTable = true
       }
       updateURLHelper(state)
+    },
+    updateSelectedMetric(state, val) {
+      state.selectedMetric = val
+      updateURLHelper(state)
+      state.geojsonResponse = JSON.parse(JSON.stringify(state.geojsonResponse))
     },
     updateEarliestDate(state, val) {
       state.earliestDate = val

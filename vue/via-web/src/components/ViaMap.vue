@@ -69,20 +69,40 @@ export default {
   },
   methods: {
     geojsonStyle(feature) {
+      let minVal = 20
+      let maxVal = 60
+      let percent = 100 * ((feature.properties.avg - minVal) / (maxVal - minVal))
+
+      if (this.$store.state.selectedMetric == 'quality') {
+        minVal = 0
+        maxVal = 50
+        percent = 100 * ((feature.properties.avg - minVal) / (maxVal - minVal))
+      }
+      if (this.$store.state.selectedMetric == 'usage') {
+        minVal = 0
+        maxVal = 2
+        percent = 100 * ((feature.properties.count - minVal) / (maxVal - minVal))
+      }
+      if (this.$store.state.selectedMetric == 'speed') {
+        minVal = 0
+        maxVal = 10
+        percent = 100 * ((feature.properties.speed - minVal) / (maxVal - minVal))
+      }
+      if (this.$store.state.selectedMetric == 'danger') {
+        minVal = 0
+        maxVal = 2
+        percent = 100 * (1 - 
+          ((feature.properties.collisions.length - minVal) / (maxVal - minVal))
+        )
+      }
+
       return {
-        color: this.getColour(
-          Math.max.apply(
-            Math,
-            [feature.properties.avg],
-            50
-          ) / 50
-        ),
+        color: this.getColour(percent),
         weight: 125 * (1.0 / this.zoomLevel)
       }
     },
     getColour(value) {
-      var hue = ((1 - value) * 120).toString(10);
-      return [ "hsl(", hue, ", 100%, 50%)" ].join("");
+      return [ "hsl(", value, ", 100%, 50%)" ].join("");
     },
     geojsonOnEachFeature(feature, layer) {
       // A general method run on each feature. These bind popups for on
@@ -184,10 +204,16 @@ export default {
       }
     },
     highlightSegment(event) {
-      this.coordsToHighlight = Array(
-        Array(event.segmentStartCoords[1], event.segmentStartCoords[0]),
-        Array(event.segmentEndCoords[1], event.segmentEndCoords[0])
-      )
+      let coords = Array()
+
+      for (let point of event.segmentGeometry) {
+        coords.push(
+          Array(point[0][1], point[0][0]),
+          Array(point[1][1], point[1][0])
+        )
+      }
+
+      this.coordsToHighlight = coords
 
       this.showHighlightedSegment = true
       this.fadeOutHighlightedSegment()
