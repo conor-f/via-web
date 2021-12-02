@@ -184,10 +184,16 @@ export default {
       }
     },
     highlightSegment(event) {
-      this.coordsToHighlight = Array(
-        Array(event.segmentStartCoords[1], event.segmentStartCoords[0]),
-        Array(event.segmentEndCoords[1], event.segmentEndCoords[0])
-      )
+      let coords = Array()
+
+      for (let point of event.segmentGeometry) {
+        coords.push(
+          Array(point[0][1], point[0][0]),
+          Array(point[1][1], point[1][0])
+        )
+      }
+
+      this.coordsToHighlight = coords
 
       this.showHighlightedSegment = true
       this.fadeOutHighlightedSegment()

@@ -121,25 +121,32 @@ export default {
         var props = groupedByRoadName[items];
         var qualities = props.map(function (currentElement) {
           return currentElement['quality']
-        });
+        })
         var usages = props.map(function (currentElement) {
           return currentElement['usage']
-        });
+        })
         var speeds = props.map(function (currentElement) {
           return parseFloat(currentElement['speed'])
-        });
+        })
         var collisions = props.map(function (currentElement) {
           return currentElement['collisions']
-        });
+        })
+        var geometry = props.map(function (currentElement) {
+          return [
+            currentElement['startCoords'],
+            currentElement['endCoords']
+          ]
+        })
 
         groupedStats.push({
-          'quality': average(qualities),
+          'quality': average(qualities).toPrecision(2),
           'usage': usages.reduce(function(a, b) {
             return Math.max(a, b);
           }, 0),
           'segment': items,
           'collisions': collisions.reduce((a, b) => a + b, 0),
-          'speed': average(speeds) * 3.6
+          'speed': (average(speeds) * 3.6).toPrecision(2),  // m/s -> km/h
+          'geometry': geometry
         });
       }
 
@@ -151,8 +158,7 @@ export default {
       this.$emit(
         'detailsTableRowSegmentClick',
         {
-          segmentStartCoords: event.data.startCoords,
-          segmentEndCoords: event.data.endCoords
+          segmentGeometry: event.data.geometry
         }
       )
     }
