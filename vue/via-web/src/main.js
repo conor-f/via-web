@@ -131,6 +131,9 @@ const store = createStore({
       })
     },
     filterTableDetails({commit, state}) {
+      if (state.geojsonResponse === null) {
+        return;
+      }
       let filteredDetails = state.geojsonResponse.features.filter((f) => {
         // TODO: This looks like a bug in vue-leaflet. Mixed up coords.
         let p = L.latLng(
