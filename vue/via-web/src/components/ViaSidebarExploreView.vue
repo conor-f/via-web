@@ -30,6 +30,21 @@
       <br/>
       <!-- End time ranges -->
 
+      <label for="selectedMetric">
+        Focus Metric
+      </label>
+      <select
+        v-model="selectedMetric"
+        :style="{
+          'margin-left': '10px'
+        }"
+      >
+        <option value="quality">Quality</option>
+        <option value="usage">Usage</option>
+        <option value="speed">Speed</option>
+        <option value="danger">Danger</option>
+      </select>
+
       <label for="showDetailsTable">
         Show Details Table
       </label>
@@ -87,6 +102,14 @@ export default {
         this.$store.commit('updateShowDetailsTable', val)
       }
     },
+    selectedMetric: {
+      get() {
+        return this.$store.state.selectedMetric
+      },
+      set(val) {
+        this.$store.commit('updateSelectedMetric', val)
+      }
+    }
   },
   methods: { },
   mounted() { }
