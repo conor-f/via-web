@@ -25,17 +25,24 @@
           Via is a way to monitor road safety for cyclists.
         </p>
         <p>
-          It has a strong emphasis on privacy, with no personally
-          identifiable information being stored or transmitted, and
-          all default options offering strong protections.
-          For example, Via will not share the time of day, the
-          beginning or end points of a journey or any means of
-          linking one journey to another by default.
+          With a strong emphasis on privacy, the <a
+            href="https://github.com/RobertLucey/via-app/releases/latest">Via
+            app</a> calculates the quality of roads you cycle on and allows
+          them to be aggregated with all other journeys so you can get a full
+          view of what roads cyclists use, what condition the roads are in, how
+          efficient different routes are and what areas have had dangerous
+          collisions on them.
+        </p>
+        <p>
+          Feel free to start exploring by expanding the Explore tab below,
+          or use the Examples section to see some interesting default views.
+          <a href="mailto:via@randombits.host">Get in touch</a> for any and all
+          feedback or to get more details about the project.
         </p>
         <p>
           If you want to help have a more transparent, complete
           coverage of cycling road quaity, you can download the
-          app <a class="plain-link" style="display: inline" href="https://github.com/RobertLucey/via-app/releases/latest">here</a>.
+          app <a href="https://github.com/RobertLucey/via-app/releases/latest">here</a>.
         </p>
       </ViaSidebarItem>
 
