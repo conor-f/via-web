@@ -52,7 +52,9 @@
         collapsedIcon="fa-lightbulb-o"
         expandedText="Examples"
         :isExpanded="isExpanded"
+        hasSubContent
         >
+        <ViaSidebarExamplesView/>
       </ViaSidebarItem>
 
       <ViaSidebarItem
@@ -67,7 +69,7 @@
         collapsedIcon="fa-github"
         expandedText="Contribute"
         :isExpanded="isExpanded"
-        href="https://github.com/RobertLucey/via"
+        href="https://github.com/conor-f/via-web"
         >
       </ViaSidebarItem>
     </ul>
@@ -77,6 +79,7 @@
 <script>
 import ViaSidebarItem from './ViaSidebarItem.vue'
 import ViaSidebarExploreView from './ViaSidebarExploreView.vue'
+import ViaSidebarExamplesView from './ViaSidebarExamplesView.vue'
 
 export default {
   name: 'ViaSidebar',
@@ -92,7 +95,8 @@ export default {
   },
   components: {
     ViaSidebarItem,
-    ViaSidebarExploreView
+    ViaSidebarExploreView,
+    ViaSidebarExamplesView,
   }
 }
 </script>
