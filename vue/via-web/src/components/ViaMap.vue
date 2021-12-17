@@ -79,7 +79,7 @@ export default {
         if (feature.properties.avg === 0) {
           percent = null;
         } else {
-          percent = 100 * ((feature.properties.avg - minVal) / (maxVal - minVal))
+          percent = 100 * (1 - (feature.properties.avg - minVal) / (maxVal - minVal))
         }
       }
       if (this.$store.state.selectedMetric == 'usage') {
