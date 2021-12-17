@@ -76,7 +76,11 @@ export default {
       if (this.$store.state.selectedMetric == 'quality') {
         minVal = 0
         maxVal = 50
-        percent = 100 * ((feature.properties.avg - minVal) / (maxVal - minVal))
+        if (feature.properties.avg === 0) {
+          percent = null;
+        } else {
+          percent = 100 * (1 - (feature.properties.avg - minVal) / (maxVal - minVal))
+        }
       }
       if (this.$store.state.selectedMetric == 'usage') {
         minVal = 0
@@ -86,7 +90,11 @@ export default {
       if (this.$store.state.selectedMetric == 'speed') {
         minVal = 0
         maxVal = 10
-        percent = 100 * ((feature.properties.speed - minVal) / (maxVal - minVal))
+        if (feature.properties.speed === null) {
+          percent = null;
+        } else {
+          percent = 100 * ((feature.properties.speed - minVal) / (maxVal - minVal))
+        }
       }
       if (this.$store.state.selectedMetric == 'danger') {
         minVal = 0
