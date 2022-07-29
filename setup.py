@@ -11,13 +11,13 @@ INSTALL_REQUIRES = (
     'boto3',
     'bottle',
     'gunicorn',
-    'via-api==0.0.52',
+    'via-api==0.0.53',
     'osmnx'
 )
 
 setup(
     name='via-web',
-    version='0.1.13',
+    version='0.1.14',
     python_requires='>=3.6',
     description='Analysing and serving crowdsourced road quality data',
     author='Conor Flynn',
