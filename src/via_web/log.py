@@ -43,7 +43,7 @@ os.makedirs(
     exist_ok=True
 )
 
-if os.getenv('LOKI_ENDPOINT') == 'True':
+if os.getenv('LOKI_ENDPOINT'):
     handler = logging_loki.LokiHandler(
         url=os.getenv('LOKI_ENDPOINT'),
         tags={"application": "via-web"},
