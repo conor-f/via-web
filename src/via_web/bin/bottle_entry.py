@@ -8,7 +8,6 @@ from ..settings import PRELOAD_CACHE
 
 from via import logger
 from via.pull_journeys import pull_journeys
-from via.utils import setup_cache
 
 from via.geojson.generate import generate_geojson
 
@@ -56,9 +55,6 @@ def main():
     args = parser.parse_args()
 
     logger.info(f'Starting bottle_entry with args: {args}')
-
-    if PRELOAD_CACHE:
-        setup_cache()
 
     update_journeys()
     generate_geojson(
