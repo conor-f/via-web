@@ -12,6 +12,8 @@ from via.utils import setup_cache
 
 from via.geojson.generate import generate_geojson
 
+from via_web import logger
+
 
 def update_journeys():
     logger.info('Pulling journeys')
@@ -31,6 +33,9 @@ def enable_cors():
 
 
 def main():
+
+    logger.info('Starting bottle_entry')
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -50,6 +55,8 @@ def main():
     )
     args = parser.parse_args()
 
+    logger.info(f'Starting bottle_entry with args: {args}')
+
     if PRELOAD_CACHE:
         setup_cache()
 
@@ -68,6 +75,8 @@ def main():
         'reloader': args.reloader,
         # 'server': 'gunicorn'
     }
+
+    logger.info(f'Bottle config: {run_config}')
 
     bottle.run(
         **run_config

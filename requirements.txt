@@ -7,3 +7,4 @@ bottle
 gunicorn
 via-api==0.0.54
 osmnx
+python-logging-loki
