@@ -4,7 +4,6 @@ import threading
 import bottle
 
 from ..api import *
-from ..settings import PRELOAD_CACHE
 
 from via import logger
 from via.pull_journeys import pull_journeys
