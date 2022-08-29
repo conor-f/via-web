@@ -96,13 +96,6 @@ export default {
           percent = 100 * ((feature.properties.speed - minVal) / (maxVal - minVal))
         }
       }
-      if (this.$store.state.selectedMetric == 'danger') {
-        minVal = 0
-        maxVal = 2
-        percent = 100 * (1 - 
-          ((feature.properties.collisions.length - minVal) / (maxVal - minVal))
-        )
-      }
 
       return {
         color: this.getColour(percent),
