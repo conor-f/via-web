@@ -15,10 +15,6 @@
       <li>
         <a href="http://127.0.0.1:8080/?showDetailsTable=true&selectedMetric=usage&earliestDate=2021-01&latestDate=2022-12&lat=53.33471863080541&lng=-6.2694597244262695&zoomLevel=15">Most Used Roads</a>
       </li>
-      <li>
-        <a
-          href="http://127.0.0.1:8080/?showDetailsTable=true&selectedMetric=danger&earliestDate=2021-01&latestDate=2022-12&lat=53.33303200603857&lng=-6.261059045791627&zoomLevel=17">Dangerous City Thoroughfare</a>
-      </li>
     </ul>
   </div>
 </template>

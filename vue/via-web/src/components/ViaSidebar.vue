@@ -29,9 +29,8 @@
             href="https://github.com/RobertLucey/via-app/releases/latest">Via
             app</a> calculates the quality of roads you cycle on and allows
           them to be aggregated with all other journeys so you can get a full
-          view of what roads cyclists use, what condition the roads are in, how
-          efficient different routes are and what areas have had dangerous
-          collisions on them.
+          view of what roads cyclists use, what condition the roads are in and how
+          efficient different routes are.
         </p>
         <p>
           Feel free to start exploring by expanding the Explore tab below,

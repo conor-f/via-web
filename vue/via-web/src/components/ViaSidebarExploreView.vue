@@ -42,7 +42,6 @@
         <option value="quality">Quality</option>
         <option value="usage">Usage</option>
         <option value="speed">Speed</option>
-        <option value="danger">Danger</option>
       </select>
 
       <label for="showDetailsTable">
