@@ -8,6 +8,39 @@ import L from 'leaflet'
 import ViaHomepage from './views/ViaHomepage.vue'
 
 
+function mergeStreetGeoJson(state) {
+
+  let roadQualitiesMap = {};
+
+  state.geojsonResponse.features.forEach((thing) => {
+    if (Object.prototype.hasOwnProperty.call(roadQualitiesMap, thing.properties.name)) {
+      roadQualitiesMap[thing.properties.name].qualities.push(thing.properties.avg);
+      roadQualitiesMap[thing.properties.name].usages.push(thing.properties.count);
+      roadQualitiesMap[thing.properties.name].speeds.push(thing.properties.speed);
+    } else {
+      roadQualitiesMap[thing.properties.name] = {
+        qualities: [thing.properties.avg],
+        usages: [thing.properties.count],
+        speeds: [thing.properties.speed]
+      };
+    }
+  });
+
+  const average = array => array.reduce((a, b) => a + b) / array.length;
+
+  state.geojsonResponse.features.forEach((feature) => {
+    if (feature.properties.name !== undefined) {
+      feature.properties.count = Math.max.apply(null, roadQualitiesMap[feature.properties.name].usages);
+      if (average(roadQualitiesMap[feature.properties.name].speeds) != 0) {
+        // No speeds given, dirty way of doing this
+        feature.properties.speed = average(roadQualitiesMap[feature.properties.name].speeds);
+      }
+      feature.properties.avg = average(roadQualitiesMap[feature.properties.name].qualities);
+    }
+  });
+}
+
+
 function updateURLHelper(state) {
   const url = new URL(window.location)
 
@@ -87,6 +120,7 @@ const store = createStore({
       state.selectedMetric = val
       updateURLHelper(state)
       state.geojsonResponse = JSON.parse(JSON.stringify(state.geojsonResponse))
+      mergeStreetGeoJson(state);
     },
     updateEarliestDate(state, val) {
       state.earliestDate = val
@@ -119,6 +153,7 @@ const store = createStore({
     },
     updateGeojson(state, geojsonResponse) {
       state.geojsonResponse = geojsonResponse
+      mergeStreetGeoJson(state);
     },
     updateTableDetails(state, tableDetails) {
       state.tableDetails = tableDetails
