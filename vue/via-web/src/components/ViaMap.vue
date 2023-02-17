@@ -109,43 +109,13 @@ export default {
       // A general method run on each feature. These bind popups for on
       // layer click (default) and also on mouseover/out. Just the road
       // name for now which isn't always populated.
-      function getCollisionsText(collisions) {
-        if (collisions.length == 0) {
-          return "No collisions."
-        }
-
-        let collisionsText = "Collisions (" + collisions.length + "):<br/>"
-
-        for (let collision of collisions) {
-          collisionsText += "<ul>"
-          collisionsText += "<li>Time of Day: "
-          collisionsText += collision.hour
-          collisionsText += "</li>"
-          collisionsText += "<li>Fatalities: "
-          collisionsText += collision.num_fatal
-          collisionsText += "</li>"
-          collisionsText += "<li>Minor Injuries: "
-          collisionsText += collision.num_minor
-          collisionsText += "</li>"
-          collisionsText += "<li>Serious Injuries: "
-          collisionsText += collision.num_serious
-          collisionsText += "</li>"
-          collisionsText += "<li>Severity: "
-          collisionsText += collision.severity
-          collisionsText += "</li>"
-          collisionsText += "</ul>"
-        }
-
-        return collisionsText
-      }
 
       layer.bindPopup(
         "<h4 style='text-align: center'>Details:</h3>" +
         "Road Name: " + feature.properties.name + "<br/>" +
         "Quality: " + feature.properties.avg + "<br/>" +
         "Speed: " + (3.6 * parseFloat(feature.properties.speed)).toPrecision(2) + " km/h <br/>" +
-        "Usage: " + feature.properties.count + "<br/>" +
-        getCollisionsText(feature.properties.collisions)
+        "Usage: " + feature.properties.count + "<br/>"
       )
 
       // TODO: Can't find a way to make the component popup.

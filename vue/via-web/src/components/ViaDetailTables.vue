@@ -46,12 +46,6 @@
       :sortable="true"
       :style="{width: '15%'}"
       />
-    <Column
-      field="collisions"
-      header="Traffic Incidents"
-      :sortable="true"
-      :style="{width: '15%'}"
-      />
   </DataTable>
 </template>
 
@@ -102,7 +96,6 @@ export default {
           'quality': parseInt(e.properties.avg),
           'usage': parseInt(e.properties.count),
           'speed': parseFloat(e.properties.speed).toPrecision(2),
-          'collisions': e.properties.collisions.length,
           'startCoords': e.geometry.coordinates[0],
           'endCoords': e.geometry.coordinates[1],
         })
@@ -128,9 +121,6 @@ export default {
         var speeds = props.map(function (currentElement) {
           return parseFloat(currentElement['speed'])
         })
-        var collisions = props.map(function (currentElement) {
-          return currentElement['collisions']
-        })
         var geometry = props.map(function (currentElement) {
           return [
             currentElement['startCoords'],
@@ -144,7 +134,6 @@ export default {
             return Math.max(a, b);
           }, 0),
           'segment': items,
-          'collisions': collisions.reduce((a, b) => a + b, 0),
           'speed': (average(speeds) * 3.6).toPrecision(2),  // m/s -> km/h
           'geometry': geometry
         });
