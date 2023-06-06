@@ -9,7 +9,7 @@ RUN python3 -m pip install virtualenv
 RUN python3 -m virtualenv -p python3 .env_python3
 
 COPY requirements.txt requirements.txt
-RUN python3 -m pip install -r requirements.txt
+RUN python3 -m pip install --upgrade -r requirements.txt
 
 COPY . .
 

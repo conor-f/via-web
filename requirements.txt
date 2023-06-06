@@ -5,6 +5,7 @@ fast_json
 boto3
 bottle
 gunicorn
-via-api==1.1.1
+via-api
 osmnx
 python-logging-loki
+rtree

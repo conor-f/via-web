@@ -13,12 +13,13 @@ INSTALL_REQUIRES = (
     'gunicorn',
     'via-api',
     'osmnx',
-    'python-logging-loki'
+    'python-logging-loki',
+    'rtree'
 )
 
 setup(
     name='via-web',
-    version='0.1.20',
+    version='0.1.21',
     python_requires='>=3.6',
     description='Analysing and serving crowdsourced road quality data',
     author='Conor Flynn',
