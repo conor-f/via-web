@@ -11,14 +11,14 @@ INSTALL_REQUIRES = (
     'boto3',
     'bottle',
     'gunicorn',
-    'via-api==1.1.1',
+    'via-api',
     'osmnx',
     'python-logging-loki'
 )
 
 setup(
     name='via-web',
-    version='0.1.19',
+    version='0.1.20',
     python_requires='>=3.6',
     description='Analysing and serving crowdsourced road quality data',
     author='Conor Flynn',
