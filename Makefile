@@ -49,12 +49,12 @@ run_vue: vue_setup
 	# cd vue/via-web && npm run serve
 	cd vue/via-web && npm run serve_prod
 
-local_run: vue_setup build
+local_run: vue_setup
 	cd vue/via-web && npm run serve_local
 
-test_run: vue setup build
+test_run: vue_setup
 	cd vue/via-web && npm run serve_test
 
-production_run:
+production_run: vue_setup build
 	cd vue/via-web && npm run serve_prod &
 	$(IN_ENV) via_bottle
