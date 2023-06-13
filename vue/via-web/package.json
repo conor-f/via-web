@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve_local": "NODE_OPTIONS=--openssl-legacy-provider API_URL=\"http://127.0.0.1:8000\" vue-cli-service serve",
+    "serve_test": "NODE_OPTIONS=--openssl-legacy-provider API_URL=\"https://test-via-api.randombits.host\" vue-cli-service serve",
+    "serve_prod": "API_URL=\"https://via-api.randombits.host/journeys\" NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },

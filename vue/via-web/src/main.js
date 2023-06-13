@@ -162,8 +162,8 @@ const store = createStore({
   actions: {
     getGeojsonFromAPI({commit, state, dispatch}) {
       axios.get(
-        // TODO: This host should be populated intelligently.
-        "https://via-api.randombits.host/journeys/get_geojson?earliest_time="
+        // TODO: This should be populated even more intelligently haha...
+        process.env.API_URL + "/get_geojson?earliest_time="
         + state.earliestDate + "&latest_time=" + state.latestDate
       ).then(response => {
         console.log("Looking for the API? This is the raw data you can use! Get in touch on Github if you want more details:")

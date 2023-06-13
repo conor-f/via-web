@@ -16,7 +16,7 @@ setup:
 	$(IN_ENV) $(PYTHON) -m pip install --editable .
 
 vue_setup:
-	sudo apt install -y npm
+	# sudo apt install -y npm
 	cd vue/via-web && npm install
 
 production_setup: setup
@@ -46,11 +46,14 @@ run_api:
 	$(IN_ENV) via_bottle
 
 run_vue: vue_setup
+	# cd vue/via-web && npm run serve
+	cd vue/via-web && npm run serve_prod
+
+local_run: vue_setup build
 	cd vue/via-web && npm run serve
 
-local_run: build production_run
+test_run: vue setup build
 	cd vue/via-web && npm run serve
-	$(IN_ENV) via_bottle &
 
 production_run:
 	cd vue/via-web && npm run serve &
