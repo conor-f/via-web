@@ -7,13 +7,13 @@
     </p>
     <ul>
       <li>
-        <a href="http://127.0.0.1:8080/?showDetailsTable=false&selectedMetric=speed&earliestDate=2021-01&latestDate=2022-12&lat=53.33544106215165&lng=-6.268184297104635&zoomLevel=16">South Circular Road Speed</a>
+        <a href="?showDetailsTable=false&selectedMetric=speed&earliestDate=2021-01&latestDate=2022-12&lat=53.33544106215165&lng=-6.268184297104635&zoomLevel=16">South Circular Road Speed</a>
       </li>
       <li>
-        <a href="http://127.0.0.1:8080/?showDetailsTable=true&selectedMetric=quality&earliestDate=2021-01&latestDate=2022-12&lat=53.33028999762885&lng=-6.2530673670966985&zoomLevel=16">Grand Canal Cycle Lane Quality</a>
+        <a href="?showDetailsTable=true&selectedMetric=quality&earliestDate=2021-01&latestDate=2022-12&lat=53.33028999762885&lng=-6.2530673670966985&zoomLevel=16">Grand Canal Cycle Lane Quality</a>
       </li>
       <li>
-        <a href="http://127.0.0.1:8080/?showDetailsTable=true&selectedMetric=usage&earliestDate=2021-01&latestDate=2022-12&lat=53.33471863080541&lng=-6.2694597244262695&zoomLevel=15">Most Used Roads</a>
+        <a href="?showDetailsTable=true&selectedMetric=usage&earliestDate=2021-01&latestDate=2022-12&lat=53.33471863080541&lng=-6.2694597244262695&zoomLevel=15">Most Used Roads</a>
       </li>
     </ul>
   </div>
