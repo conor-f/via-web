@@ -5,7 +5,7 @@
   "scripts": {
     "serve_local": "NODE_OPTIONS=--openssl-legacy-provider VUE_APP_API_URL=http://127.0.0.1:8000 vue-cli-service serve",
     "serve_test": "VUE_APP_API_URL=https://test-via-api.randombits.host vue-cli-service serve",
-    "serve_prod": "VUE_APP_API_URL=https://via-api.randombits.host/journeys vue-cli-service serve",
+    "serve_prod": "VUE_APP_API_URL=https://via-api.randombits.host vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
