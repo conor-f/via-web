@@ -129,15 +129,6 @@
                     </a>
                     <!-- End Examples link -->
 
-                    <!-- Twitter link -->
-                    <a href="https://twitter.com/intent/tweet?text=Check%20out%20Via%20-%20It%27s%20visualizing%20road%20quality%20for%20cyclists%3A%20https%3A%2F%2Fviaroads.com" target="_blank" class="bg-dark list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-start align-items-center">
-                            <span class="fa fa-twitter fa-fw mr-3"></span>
-                            <span class="menu-collapsed">Tweet</span>
-                        </div>
-                    </a>
-                    <!-- End Twitter link -->
-
                     <!-- Contribute link -->
                     <a href="https://github.com/RobertLucey/via" class="bg-dark list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-start align-items-center">

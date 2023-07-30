@@ -64,14 +64,6 @@
       </ViaSidebarItem>
 
       <ViaSidebarItem
-        collapsedIcon="fa-twitter"
-        expandedText="Tweet"
-        :isExpanded="isExpanded"
-        href="https://twitter.com/intent/tweet?text=Check%20out%20Via%20-%20It%27s%20visualizing%20road%20quality%20for%20cyclists%3A%20https%3A%2F%2Fviaroads.com"
-        >
-      </ViaSidebarItem>
-
-      <ViaSidebarItem
         collapsedIcon="fa-github"
         expandedText="Contribute"
         :isExpanded="isExpanded"
