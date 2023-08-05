@@ -1,5 +1,4 @@
 <template>
-
   <div class="bg-dark list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-start align-items-center">
       <!-- Icon -->
@@ -8,7 +7,7 @@
         :expandedIcon="expandedIcon"
         :isCustomIcon="isCustomIcon"
         :isExpanded="isExpanded"
-        />
+      />
 
       <!-- Expanded menu text (and subcontent indicator) -->
       <span
@@ -16,10 +15,10 @@
         class="mr-3"
         :class="{
           'subcontent-expanded': hasSubContent && shouldShowSlot,
-          'subcontent-collapsed': hasSubContent && !shouldShowSlot
+          'subcontent-collapsed': hasSubContent && !shouldShowSlot,
         }"
         @click="handleMenuItemClick()"
-        >
+      >
         {{ expandedText }}
       </span>
     </div>
@@ -28,64 +27,64 @@
     <div
       v-if="isExpanded && hasSubContent && shouldShowSlot"
       class="subcontent"
-      >
-      <slot/>
+    >
+      <slot />
     </div>
   </div>
-
 </template>
 
 <script>
-import ViaSidebarItemIcon from './ViaSidebarItemIcon.vue'
+import ViaSidebarItemIcon from "./ViaSidebarItemIcon.vue";
 
 export default {
-  name: 'ViaSidebarItem',
+  name: "ViaSidebarItem",
   props: {
     collapsedIcon: {
-      required: true
+      required: true,
     },
     expandedIcon: {
-      default: (props) => props.collapsedIcon
+      default: (props) => props.collapsedIcon,
     },
     isCustomIcon: {
-      type: Boolean
+      type: Boolean,
     },
     expandedText: {
-      required: true
+      required: true,
     },
     isExpanded: {
-      required: true
+      required: true,
     },
     hasSubContent: {
-      type: Boolean
+      type: Boolean,
     },
     href: {
-      default: ''
-    }
+      default: "",
+    },
   },
   data() {
     return {
-      shouldShowSlot: false
-    }
+      shouldShowSlot: false,
+    };
   },
   methods: {
     toggleShowSlot() {
       this.shouldShowSlot = this.hasSubContent && !this.shouldShowSlot;
     },
     handleMenuItemClick() {
-      if (this.href != '') {
-        window.location.href = this.href
-      } if (!this.hasSubContent) {
+      if (this.href != "") {
+        window.location.href = this.href;
+      }
+      if (!this.hasSubContent) {
         return;
       } else {
-        this.toggleShowSlot()
+        this.toggleShowSlot();
       }
-    }
+    },
   },
   components: {
-    ViaSidebarItemIcon 
-  }
-}
+    ViaSidebarItemIcon,
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -95,7 +94,7 @@ export default {
 }
 
 .list-group-item:hover {
-  background-color: #1d2124!important;
+  background-color: #1d2124 !important;
 }
 
 .subcontent-collapsed::after {
