@@ -10,34 +10,39 @@ import ViaHomepage from './views/ViaHomepage.vue'
 
 function mergeStreetGeoJson(state) {
 
-  let roadQualitiesMap = {};
+  state.viewGeojson = JSON.parse(JSON.stringify(state.geojsonResponse));
 
-  state.geojsonResponse.features.forEach((thing) => {
-    if (Object.prototype.hasOwnProperty.call(roadQualitiesMap, thing.properties.name)) {
-      roadQualitiesMap[thing.properties.name].qualities.push(thing.properties.avg);
-      roadQualitiesMap[thing.properties.name].usages.push(thing.properties.count);
-      roadQualitiesMap[thing.properties.name].speeds.push(thing.properties.speed);
-    } else {
-      roadQualitiesMap[thing.properties.name] = {
-        qualities: [thing.properties.avg],
-        usages: [thing.properties.count],
-        speeds: [thing.properties.speed]
-      };
-    }
-  });
+  if (state.mergeRoadSegments) {
+    let roadQualitiesMap = {};
 
-  const average = array => array.reduce((a, b) => a + b) / array.length;
-
-  state.geojsonResponse.features.forEach((feature) => {
-    if (feature.properties.name !== undefined) {
-      feature.properties.count = Math.max.apply(null, roadQualitiesMap[feature.properties.name].usages);
-      if (average(roadQualitiesMap[feature.properties.name].speeds) != 0) {
-        // No speeds given, dirty way of doing this
-        feature.properties.speed = average(roadQualitiesMap[feature.properties.name].speeds);
+    state.viewGeojson.features.forEach((thing) => {
+      if (Object.prototype.hasOwnProperty.call(roadQualitiesMap, thing.properties.name)) {
+        roadQualitiesMap[thing.properties.name].qualities.push(thing.properties.avg);
+        roadQualitiesMap[thing.properties.name].usages.push(thing.properties.count);
+        roadQualitiesMap[thing.properties.name].speeds.push(thing.properties.speed);
+      } else {
+        roadQualitiesMap[thing.properties.name] = {
+          qualities: [thing.properties.avg],
+          usages: [thing.properties.count],
+          speeds: [thing.properties.speed]
+        };
       }
-      feature.properties.avg = average(roadQualitiesMap[feature.properties.name].qualities);
-    }
-  });
+    });
+
+    const average = array => array.reduce((a, b) => a + b) / array.length;
+
+    state.viewGeojson.features.forEach((feature) => {
+      if (feature.properties.name !== undefined) {
+        feature.properties.count = Math.max.apply(null, roadQualitiesMap[feature.properties.name].usages);
+        if (average(roadQualitiesMap[feature.properties.name].speeds) != 0) {
+          // No speeds given, dirty way of doing this
+          feature.properties.speed = average(roadQualitiesMap[feature.properties.name].speeds);
+        }
+        feature.properties.avg = average(roadQualitiesMap[feature.properties.name].qualities);
+      }
+    });
+
+  }
 }
 
 
@@ -82,6 +87,7 @@ const store = createStore({
       // UI Controllers:
       showSidebar: null,
       showDetailsTable: null,
+      mergeRoadSegments: null,
       selectedMetric: 'quality',
 
       // Form Values:
@@ -96,6 +102,7 @@ const store = createStore({
 
       // Computed Results:
       geojsonResponse: null,  // Used for the map layer.
+      viewGeojson: null,  // Used for the map layer.
       tableDetails: null  // Filtered version of the response for the table.
     }
   },
@@ -107,6 +114,16 @@ const store = createStore({
       } else {
         state.showSidebar = true
       }
+    },
+    updateMergeRoadSegments(state, val) {
+      if (val == 'false' || !val) {
+        state.mergeRoadSegments = false
+      } else {
+        state.mergeRoadSegments = true
+      }
+      // TODO: should do url stuff
+      state.geojsonResponse = JSON.parse(JSON.stringify(state.geojsonResponse))
+      mergeStreetGeoJson(state);
     },
     updateShowDetailsTable(state, val) {
       if (val == 'false' || !val) {

@@ -50,7 +50,8 @@ export default {
   computed: {
     ...mapState([
       'showSidebar',
-      'showDetailsTable'
+      'showDetailsTable',
+      'mergeRoadSegments',
     ]),
   },
   methods: {
@@ -67,6 +68,10 @@ export default {
       'updateShowDetailsTable',
       this.$route.query.showDetailsTable
     )
+    this.$store.commit(
+      "updateMergeRoadSegments",
+      this.$route.query.mergeRoadSegments
+    );
 
     this.$store.commit(
       'updateLat',

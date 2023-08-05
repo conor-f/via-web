@@ -44,6 +44,17 @@
         <option value="speed">Speed</option>
       </select>
 
+      <label for="mergeRoadSegments">
+        Merge Data By Road Name
+      </label>
+      <input
+        type="checkbox"
+        v-model="mergeRoadSegments"
+        :style="{
+          'margin-left': '10px'
+        }"
+        />
+
       <label for="showDetailsTable">
         Show Details Table
       </label>
@@ -73,6 +84,7 @@ export default {
     ...mapState([
       'earliestDate',
       'latestDate',
+      'mergeRoadSegments',
       'showDetailsTable',
     ]),
     earliestDate: {
@@ -91,6 +103,14 @@ export default {
       set(val) {
         this.$store.commit('updateLatestDate', val)
         this.$store.dispatch('getGeojsonFromAPI')
+      }
+    },
+    mergeRoadSegments: {
+      get() {
+        return this.$store.state.mergeRoadSegments
+      },
+      set(val) {
+        this.$store.commit('updateMergeRoadSegments', val)
       }
     },
     showDetailsTable: {

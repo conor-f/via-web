@@ -195,7 +195,7 @@ export default {
       'lat',
       'lng',
       'zoomLevel',
-      'geojsonResponse',
+      'viewGeojson',
     ]),
     lat: {
       get() {
@@ -222,7 +222,7 @@ export default {
       }
     },
     geojsonLayer() {
-      return this.$store.state.geojsonResponse
+      return this.$store.state.viewGeojson
     },
   }
 }
