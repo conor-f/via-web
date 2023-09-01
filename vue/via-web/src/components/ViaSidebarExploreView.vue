@@ -97,6 +97,7 @@ export default {
       },
       set(val) {
         this.$store.commit("updateShowDetailsTable", val);
+        this.$store.dispatch("filterTableDetails");
       },
     },
     selectedMetric: {

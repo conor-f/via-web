@@ -3,7 +3,6 @@ import { createStore } from "vuex";
 import { createRouter, createWebHistory } from "vue-router";
 
 import axios from "axios";
-import L from "leaflet";
 
 import ViaHomepage from "./views/ViaHomepage.vue";
 
@@ -194,22 +193,21 @@ const store = createStore({
         });
     },
     filterTableDetails({ commit, state }) {
+      if (!state.showDetailsTable) {
+        return;
+      }
       if (state.geojsonResponse === null) {
         return;
       }
-      let filteredDetails = state.geojsonResponse.features.filter((f) => {
-        // TODO: This looks like a bug in vue-leaflet. Mixed up coords.
-        let p = L.latLng(
-          f.geometry.coordinates[0][1],
-          f.geometry.coordinates[0][0]
-        );
 
+      // TODO: Maybe only do if num of features inside boundary is small enough to not crash
+      let filteredDetails = state.geojsonResponse.features.filter((f) => {
         if (state.latLngBounds == null) {
           return true;
         }
 
-        // TODO: This contains method looks visually incorrect.
-        return state.latLngBounds.contains(p);
+        let coords = f.geometry.coordinates[0];
+        return state.latLngBounds.contains([coords[1], coords[0]]);
       });
 
       commit("updateTableDetails", filteredDetails);

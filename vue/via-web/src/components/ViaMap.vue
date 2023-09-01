@@ -61,6 +61,7 @@ export default {
       showHighlightedSegment: false,
       highlightedSegmentOpacity: 1.0,
       highlightedSegmentWeight: 30.0,
+      lastFilterTableUpdate: 0,
     };
   },
   methods: {
@@ -164,9 +165,10 @@ export default {
         this.$store.commit("updateLatLngBounds", event);
       }
 
-      // FIXME: This happens too frequently, if click and drag moving
-      // and are zoomed out a lot things slow down to a crawl
-      this.$store.dispatch("filterTableDetails");
+      if (new Date().getTime() - this.lastFilterTableUpdate > 1000) {
+        this.$store.dispatch("filterTableDetails");
+        this.lastFilterTableUpdate = new Date().getTime();
+      }
     },
     fadeOutHighlightedSegment(opacity = 1) {
       if (opacity > 0) {
